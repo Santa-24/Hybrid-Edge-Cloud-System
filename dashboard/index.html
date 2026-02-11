@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Edge-Cloud Monitoring Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🔒 Safety Monitoring System</h1>
+            <p class="subtitle">Hybrid Edge-Cloud Detection Dashboard</p>
+            <div class="status-indicator">
+                <span class="status-dot" id="systemStatus"></span>
+                <span id="systemStatusText">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="dashboard-grid">
+            <!-- Risk Level Card -->
+            <div class="card risk-card">
+                <div class="card-header">
+                    <h2>Current Risk Level</h2>
+                    <span class="icon">⚠️</span>
+                </div>
+                <div class="risk-display">
+                    <div class="risk-level" id="riskLevel">
+                        <span class="risk-badge" id="riskBadge">SAFE</span>
+                    </div>
+                    <p class="risk-description" id="riskDescription">No detection</p>
+                </div>
+                <div class="risk-details">
+                    <div class="detail-item">
+                        <span class="label">Detection Duration:</span>
+                        <span class="value" id="duration">0s</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Last Update:</span>
+                        <span class="value" id="lastUpdate">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relay Status Card -->
+            <div class="card relay-card">
+                <div class="card-header">
+                    <h2>Relay Control</h2>
+                    <span class="icon">🔌</span>
+                </div>
+                <div class="relay-status">
+                    <div class="relay-visual" id="relayVisual">
+                        <div class="relay-switch" id="relaySwitch">
+                            <div class="switch-toggle"></div>
+                        </div>
+                        <p class="relay-state" id="relayState">OFF</p>
+                    </div>
+                </div>
+                <div class="relay-details">
+                    <div class="detail-item">
+                        <span class="label">Status:</span>
+                        <span class="value" id="relayStatus">Standby</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Last Action:</span>
+                        <span class="value" id="relayLastAction">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="card stats-card">
+                <div class="card-header">
+                    <h2>Today's Statistics</h2>
+                    <span class="icon">📊</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalDetections">0</div>
+                        <div class="stat-label">Total Detections</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="highRiskCount">0</div>
+                        <div class="stat-label">High Risk Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="mediumRiskCount">0</div>
+                        <div class="stat-label">Medium Risk Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="lowRiskCount">0</div>
+                        <div class="stat-label">Low Risk Events</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Log Card -->
+            <div class="card log-card">
+                <div class="card-header">
+                    <h2>Recent Events</h2>
+                    <span class="icon">📝</span>
+                    <button class="clear-btn" id="clearLogBtn">Clear</button>
+                </div>
+                <div class="event-log" id="eventLog">
+                    <div class="log-entry info">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-message">System initialized. Waiting for events...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info Card -->
+            <div class="card info-card">
+                <div class="card-header">
+                    <h2>System Information</h2>
+                    <span class="icon">ℹ️</span>
+                </div>
+                <div class="info-content">
+                    <div class="info-item">
+                        <span class="info-label">Edge Device:</span>
+                        <span class="info-value" id="edgeDevice">ESP32 + Camera</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cloud Connection:</span>
+                        <span class="info-value" id="cloudConnection">MQTT</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Detection Model:</span>
+                        <span class="info-value">Haarcascade</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Uptime:</span>
+                        <span class="info-value" id="uptime">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel Card -->
+            <div class="card control-card">
+                <div class="card-header">
+                    <h2>Manual Controls</h2>
+                    <span class="icon">🎮</span>
+                </div>
+                <div class="control-buttons">
+                    <button class="control-btn" id="testBtn">🧪 Test Alert</button>
+                    <button class="control-btn" id="resetBtn">🔄 Reset Stats</button>
+                    <button class="control-btn" id="downloadBtn">💾 Download Log</button>
+                </div>
+                <div class="control-info">
+                    <p><strong>Note:</strong> These controls are for testing and monitoring purposes.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Hybrid Edge-Cloud Safety System © 2024 | 
+                <span id="dataMode">Demo Mode</span> | 
+                <span id="connectionInfo">WebSocket: Disconnected</span>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
