@@ -3,167 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Edge-Cloud Monitoring Dashboard</title>
+    <title>Hybrid Edge-Cloud System Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header>
-            <h1>🔒 Safety Monitoring System</h1>
-            <p class="subtitle">Hybrid Edge-Cloud Detection Dashboard</p>
-            <div class="status-indicator">
-                <span class="status-dot" id="systemStatus"></span>
-                <span id="systemStatusText">Connecting...</span>
+            <h1>🔐 Edge-Cloud Security System</h1>
+            <div class="system-status">
+                <span id="connection-status" class="status-badge">
+                    <span class="status-dot"></span> Connecting...
+                </span>
+                <span class="time" id="current-time"></span>
             </div>
         </header>
 
+        <!-- Alert Banner -->
+        <div id="alert-banner" class="alert-banner hidden">
+            <span class="alert-icon">⚠️</span>
+            <span id="alert-message"></span>
+            <button class="alert-close" onclick="closeAlert()">x</button>
+        </div>
+
         <!-- Main Grid -->
-        <main class="dashboard-grid">
-            <!-- Risk Level Card -->
-            <div class="card risk-card">
+        <div class="dashboard-grid">
+            <!-- Current Status Card -->
+            <div class="card status-card">
                 <div class="card-header">
-                    <h2>Current Risk Level</h2>
-                    <span class="icon">⚠️</span>
+                    <h2>Current Status</h2>
+                    <span class="card-icon">📊</span>
                 </div>
-                <div class="risk-display">
-                    <div class="risk-level" id="riskLevel">
-                        <span class="risk-badge" id="riskBadge">SAFE</span>
+                <div class="card-body">
+                    <div class="status-item">
+                        <div class="status-label">Risk Level</div>
+                        <div id="current-risk-level" class="risk-badge risk-low">LOW</div>
                     </div>
-                    <p class="risk-description" id="riskDescription">No detection</p>
-                </div>
-                <div class="risk-details">
-                    <div class="detail-item">
-                        <span class="label">Detection Duration:</span>
-                        <span class="value" id="duration">0s</span>
+                    <div class="status-item">
+                        <div class="status-label">Risk Score</div>
+                        <div id="current-risk-score" class="status-value">0</div>
                     </div>
-                    <div class="detail-item">
-                        <span class="label">Last Update:</span>
-                        <span class="value" id="lastUpdate">--</span>
+                    <div class="status-item">
+                        <div class="status-label">Motion Count</div>
+                        <div id="current-motion-count" class="status-value">0</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Relay Status</div>
+                        <div id="relay-status" class="relay-indicator relay-off">OFF</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Relay Status Card -->
-            <div class="card relay-card">
+            <!-- Device Status Card -->
+            <div class="card">
                 <div class="card-header">
-                    <h2>Relay Control</h2>
-                    <span class="icon">🔌</span>
+                    <h2>Device Status</h2>
+                    <span class="card-icon">📡</span>
                 </div>
-                <div class="relay-status">
-                    <div class="relay-visual" id="relayVisual">
-                        <div class="relay-switch" id="relaySwitch">
-                            <div class="switch-toggle"></div>
+                <div class="card-body">
+                    <div class="device-info">
+                        <div class="device-row">
+                            <span class="device-label">Device ID:</span>
+                            <span id="device-id" class="device-value">-</span>
                         </div>
-                        <p class="relay-state" id="relayState">OFF</p>
-                    </div>
-                </div>
-                <div class="relay-details">
-                    <div class="detail-item">
-                        <span class="label">Status:</span>
-                        <span class="value" id="relayStatus">Standby</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="label">Last Action:</span>
-                        <span class="value" id="relayLastAction">--</span>
+                        <div class="device-row">
+                            <span class="device-label">Location:</span>
+                            <span id="device-location" class="device-value">-</span>
+                        </div>
+                        <div class="device-row">
+                            <span class="device-label">Last Update:</span>
+                            <span id="last-update" class="device-value">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Statistics Card -->
-            <div class="card stats-card">
+            <div class="card">
                 <div class="card-header">
-                    <h2>Today's Statistics</h2>
-                    <span class="icon">📊</span>
+                    <h2>Statistics (24h)</h2>
+                    <span class="card-icon">📈</span>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalDetections">0</div>
-                        <div class="stat-label">Total Detections</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="highRiskCount">0</div>
-                        <div class="stat-label">High Risk Events</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="mediumRiskCount">0</div>
-                        <div class="stat-label">Medium Risk Events</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="lowRiskCount">0</div>
-                        <div class="stat-label">Low Risk Events</div>
+                <div class="card-body">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-events">0</div>
+                            <div class="stat-label">Total Events</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="high-risk-events">0</div>
+                            <div class="stat-label">High Risk</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="alerts-sent">0</div>
+                            <div class="stat-label">Alerts Sent</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="avg-risk-score">0</div>
+                            <div class="stat-label">Avg Score</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Event Log Card -->
-            <div class="card log-card">
-                <div class="card-header">
-                    <h2>Recent Events</h2>
-                    <span class="icon">📝</span>
-                    <button class="clear-btn" id="clearLogBtn">Clear</button>
-                </div>
-                <div class="event-log" id="eventLog">
-                    <div class="log-entry info">
-                        <span class="log-time">--:--:--</span>
-                        <span class="log-message">System initialized. Waiting for events...</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- System Info Card -->
-            <div class="card info-card">
-                <div class="card-header">
-                    <h2>System Information</h2>
-                    <span class="icon">ℹ️</span>
-                </div>
-                <div class="info-content">
-                    <div class="info-item">
-                        <span class="info-label">Edge Device:</span>
-                        <span class="info-value" id="edgeDevice">ESP32 + Camera</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Cloud Connection:</span>
-                        <span class="info-value" id="cloudConnection">MQTT</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Detection Model:</span>
-                        <span class="info-value">Haarcascade</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Uptime:</span>
-                        <span class="info-value" id="uptime">00:00:00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Control Panel Card -->
-            <div class="card control-card">
+            <!-- Manual Controls Card -->
+            <div class="card">
                 <div class="card-header">
                     <h2>Manual Controls</h2>
-                    <span class="icon">🎮</span>
+                    <span class="card-icon">🎛️</span>
                 </div>
-                <div class="control-buttons">
-                    <button class="control-btn" id="testBtn">🧪 Test Alert</button>
-                    <button class="control-btn" id="resetBtn">🔄 Reset Stats</button>
-                    <button class="control-btn" id="downloadBtn">💾 Download Log</button>
-                </div>
-                <div class="control-info">
-                    <p><strong>Note:</strong> These controls are for testing and monitoring purposes.</p>
+                <div class="card-body">
+                    <div class="control-buttons">
+                        <button class="btn btn-success" onclick="sendCommand('RELAY_ON')">
+                            Turn Relay ON
+                        </button>
+                        <button class="btn btn-danger" onclick="sendCommand('RELAY_OFF')">
+                            Turn Relay OFF
+                        </button>
+                        <button class="btn btn-primary" onclick="requestStatus()">
+                            Refresh Status
+                        </button>
+                    </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Recent Events Table -->
+            <div class="card events-card">
+                <div class="card-header">
+                    <h2>Recent Events</h2>
+                    <span class="card-icon">📋</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="events-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Risk Level</th>
+                                    <th>Score</th>
+                                    <th>Motion</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-tbody">
+                                <tr>
+                                    <td colspan="5" class="no-data">No events yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer>
-            <p>Hybrid Edge-Cloud Safety System © 2024 | 
-                <span id="dataMode">Demo Mode</span> | 
-                <span id="connectionInfo">WebSocket: Disconnected</span>
-            </p>
+            <p>Hybrid Edge-Cloud System © 2024 | Connected Devices: <span id="connected-devices">0</span></p>
         </footer>
     </div>
 
-    <!-- Include JavaScript -->
+    <!-- Paho MQTT Client Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
