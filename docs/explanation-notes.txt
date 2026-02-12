@@ -1,0 +1,120 @@
+📘 SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+1. Introduction
+1.1 Purpose
+The purpose of this project is to design and implement a Hybrid Edge–Cloud Intelligent Risk Detection System that can detect risky situations using a camera, process data locally on the edge (laptop), and trigger real-world actions using an ESP32-controlled relay.
+The system focuses on real-time response, offline functionality, and practical hardware integration, making it suitable for real-world safety and automation scenarios.
+
+1.2 Scope
+The system captures live video from a camera, performs basic vision-based detection on the laptop, classifies the situation into predefined risk levels, and communicates the risk to an ESP32 microcontroller via serial communication.
+Based on the received risk level, the ESP32 controls a relay module to switch external devices (alarm, light, cutoff switch).
+An optional cloud (MQTT) component is included for monitoring and logging but is not mandatory for core operation.
+
+1.3 Definitions & Abbreviations
+Term	Description
+Edge Computing	Processing data locally without cloud dependency
+ESP32	Microcontroller with Wi-Fi & GPIO support
+Relay	Electromechanical switch controlled electronically
+MQTT	Lightweight publish–subscribe protocol
+Risk Level	System-defined severity (LOW / HIGH)
+
+2. Overall Description
+2.1 Product Perspective
+The system is a standalone embedded + software solution that integrates:
+•	Camera-based detection (Laptop)
+•	Hardware control (ESP32 + Relay)
+•	Optional cloud connectivity (MQTT)
+It is designed to work independently of internet availability, with the cloud used only for extended features.
+
+2.2 User Classes
+User	Description
+Operator	Starts and monitors the system
+Administrator	Configures thresholds and hardware
+Viewer	Observes system status (optional UI)
+
+2.3 Operating Environment
+•	Hardware: Laptop with camera, ESP32, Relay Module
+•	Software: Python, Arduino IDE
+•	OS: Windows / Linux
+•	Connectivity: USB Serial, Optional Wi-Fi
+
+2.4 Design & Implementation Constraints
+•	Limited hackathon time
+•	Basic computer vision (non-AI by default)
+•	Serial communication bandwidth
+•	Hardware safety limitations
+
+3. System Architecture
+3.1 High-Level Workflow
+1.	Camera captures live video frames
+2.	Laptop processes frames at the edge
+3.	Risk level is generated
+4.	Risk is sent to ESP32 via serial
+5.	ESP32 activates relay based on risk
+6.	Optional: event published to cloud
+
+3.2 Architecture Characteristics
+•	Real-time processing
+•	Offline-first design
+•	Modular components
+•	Hardware–software integration
+
+4. Functional Requirements
+FR1: Camera Input
+The system shall capture real-time video from a connected camera.
+FR2: Edge Processing
+The system shall analyze video frames locally to detect abnormal activity.
+FR3: Risk Classification
+The system shall classify detected activity into predefined risk levels.
+FR4: Serial Communication
+The system shall transmit risk levels to the ESP32 using serial communication.
+FR5: Relay Control
+The system shall activate or deactivate the relay based on the received risk level.
+FR6: Offline Operation
+The system shall continue functioning without internet connectivity.
+FR7: Cloud Monitoring (Optional)
+The system may publish risk events to an MQTT broker.
+
+5. Non-Functional Requirements
+•	Performance: Detection latency < 1 second
+•	Reliability: System must not crash during continuous operation
+•	Usability: Simple startup and clear status indication
+•	Scalability: Can be extended to multiple sensors
+•	Maintainability: Modular code structure
+
+6. Hardware Requirements
+•	ESP32 Development Board
+•	Relay Module (1-channel)
+•	Laptop with Camera
+•	USB Cable
+•	External Load (buzzer/light)
+
+7. Software Requirements
+•	Python 3.x
+•	OpenCV Library
+•	pySerial Library
+•	Arduino IDE
+•	ESP32 Board Package
+
+8. Use Case (Brief)
+Use Case: Automatic Hazard Response
+•	Actor: System
+•	Trigger: High-risk detection
+•	Action: Relay activation
+•	Outcome: Immediate physical response
+
+9. Limitations
+•	Basic detection logic (not advanced AI)
+•	Single camera support
+•	Limited environmental testing
+
+10. Future Enhancements
+•	AI-based detection models
+•	Multiple camera integration
+•	Web dashboard
+•	SMS / Mobile alerts
+•	Cloud analytics
+
+11. Conclusion
+This project demonstrates a practical, real-time safety system using edge computing and embedded hardware.
+By combining camera-based detection with ESP32-controlled relay actions, the system delivers immediate response, offline reliability, and scalable architecture, making it suitable for real-world deployments and hackathon evaluation.
+
