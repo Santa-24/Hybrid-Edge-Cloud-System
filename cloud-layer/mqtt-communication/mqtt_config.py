@@ -1,8 +1,15 @@
-# mqtt_config.py
-
-BROKER = "broker.hivemq.com"
+BROKER = "xx.xx.xx.xx"
 PORT = 1883
-TOPIC = "hybrid_edge_cloud/risk"
-CLIENT_ID = "cloud-subscriber-01"
-KEEP_ALIVE = 60
-QOS_LEVEL = 1
+
+CLIENT_ID = "Cloud_Subscriber_01"
+
+TOPIC_EVENTS  = "project/risk"
+TOPIC_STATUS  = "project/status"
+TOPIC_CONTROL = "project/relay"
+
+SUBSCRIBE_TOPICS = [
+    TOPIC_EVENTS,
+    TOPIC_STATUS
+]
+
+QOS = 1
