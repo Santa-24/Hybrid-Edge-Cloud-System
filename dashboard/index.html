@@ -1,170 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Edge-Cloud System Dashboard</title>
+    <title>Edge-Cloud Security System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <div class="noise-overlay"></div>
+    
     <div class="container">
         <!-- Header -->
-        <header>
-            <h1>🔐 Edge-Cloud Security System</h1>
-            <div class="system-status">
-                <span id="connection-status" class="status-badge">
-                    <span class="status-dot"></span> Connecting...
-                </span>
-                <span class="time" id="current-time"></span>
+        <header class="header">
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect x="2" y="2" width="28" height="28" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="16" cy="16" r="6" fill="currentColor"/>
+                            <path d="M16 2 L16 10 M16 22 L16 30 M2 16 L10 16 M22 16 L30 16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-title">EDGE-CLOUD</span>
+                        <span class="logo-subtitle">Security Monitor</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div id="connection-status" class="connection-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Connecting...</span>
+                    </div>
+                    <div class="time-display" id="current-time"></div>
+                </div>
             </div>
         </header>
 
-        <!-- Alert Banner -->
-        <div id="alert-banner" class="alert-banner hidden">
-            <span class="alert-icon">⚠️</span>
-            <span id="alert-message"></span>
-            <button class="alert-close" onclick="closeAlert()">x</button>
-        </div>
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            
+            <!-- Top Metrics Row -->
+            <section class="metrics-grid">
+                <div class="metric-card" data-metric="risk">
+                    <div class="metric-header">
+                        <span class="metric-label">Risk Level</span>
+                        <div class="metric-badge" id="current-risk-level" data-risk="low">LOW</div>
+                    </div>
+                    <div class="metric-value" id="current-risk-score">0</div>
+                    <div class="metric-trend">Current Score</div>
+                </div>
 
-        <!-- Main Grid -->
-        <div class="dashboard-grid">
-            <!-- Current Status Card -->
-            <div class="card status-card">
-                <div class="card-header">
-                    <h2>Current Status</h2>
-                    <span class="card-icon">📊</span>
+                <div class="metric-card" data-metric="motion">
+                    <div class="metric-header">
+                        <span class="metric-label">Motion Events</span>
+                    </div>
+                    <div class="metric-value" id="current-motion-count">0</div>
+                    <div class="metric-trend">Detected</div>
                 </div>
-                <div class="card-body">
-                    <div class="status-item">
-                        <div class="status-label">Risk Level</div>
-                        <div id="current-risk-level" class="risk-badge risk-low">LOW</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-label">Risk Score</div>
-                        <div id="current-risk-score" class="status-value">0</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-label">Motion Count</div>
-                        <div id="current-motion-count" class="status-value">0</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-label">Relay Status</div>
-                        <div id="relay-status" class="relay-indicator relay-off">OFF</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Device Status Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Device Status</h2>
-                    <span class="card-icon">📡</span>
+                <div class="metric-card" data-metric="total">
+                    <div class="metric-header">
+                        <span class="metric-label">Total Events</span>
+                    </div>
+                    <div class="metric-value" id="total-events">0</div>
+                    <div class="metric-trend">Lifetime</div>
                 </div>
-                <div class="card-body">
-                    <div class="device-info">
-                        <div class="device-row">
-                            <span class="device-label">Device ID:</span>
-                            <span id="device-id" class="device-value">-</span>
-                        </div>
-                        <div class="device-row">
-                            <span class="device-label">Location:</span>
-                            <span id="device-location" class="device-value">-</span>
-                        </div>
-                        <div class="device-row">
-                            <span class="device-label">Last Update:</span>
-                            <span id="last-update" class="device-value">-</span>
+
+                <div class="metric-card" data-metric="alerts">
+                    <div class="metric-header">
+                        <span class="metric-label">Alerts Sent</span>
+                    </div>
+                    <div class="metric-value" id="alerts-sent">0</div>
+                    <div class="metric-trend">Total Notifications</div>
+                </div>
+            </section>
+
+            <!-- Secondary Stats -->
+            <section class="stats-row">
+                <div class="stat-panel">
+                    <div class="stat-item">
+                        <span class="stat-label">High Risk Events</span>
+                        <span class="stat-number" id="high-risk-events">0</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-label">Average Score</span>
+                        <span class="stat-number" id="avg-risk-score">0</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-label">Relay Status</span>
+                        <span class="stat-number relay-status" id="relay-status" data-status="off">OFF</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Grid -->
+            <section class="content-grid">
+                
+                <!-- Events Table -->
+                <div class="panel events-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">System Events</h2>
+                        <span class="panel-badge">Live</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-wrapper">
+                            <table class="events-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Risk Level</th>
+                                        <th>Score</th>
+                                        <th>Motion</th>
+                                        <th>Action Taken</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="events-tbody">
+                                    <tr class="empty-state">
+                                        <td colspan="5">
+                                            <div class="empty-message">
+                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                    <rect x="8" y="8" width="32" height="32" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                                                    <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                                                </svg>
+                                                <p>No events recorded yet</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Statistics Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Statistics (24h)</h2>
-                    <span class="card-icon">📈</span>
-                </div>
-                <div class="card-body">
-                    <div class="stat-grid">
-                        <div class="stat-item">
-                            <div class="stat-value" id="total-events">0</div>
-                            <div class="stat-label">Total Events</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="high-risk-events">0</div>
-                            <div class="stat-label">High Risk</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="alerts-sent">0</div>
-                            <div class="stat-label">Alerts Sent</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="avg-risk-score">0</div>
-                            <div class="stat-label">Avg Score</div>
-                        </div>
+                <!-- Control Panel -->
+                <div class="panel controls-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Manual Controls</h2>
                     </div>
-                </div>
-            </div>
+                    <div class="panel-body">
+                        <div class="control-section">
+                            <h3 class="control-section-title">Relay</h3>
+                            <div class="control-buttons">
+                                <button class="control-btn control-btn-on" onclick="sendCommand('RELAY_ON')">
+                                    <span class="btn-icon">◉</span>
+                                    <span class="btn-text">Activate</span>
+                                </button>
+                                <button class="control-btn control-btn-off" onclick="sendCommand('RELAY_OFF')">
+                                    <span class="btn-icon">○</span>
+                                    <span class="btn-text">Deactivate</span>
+                                </button>
+                            </div>
+                        </div>
 
-            <!-- Manual Controls Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Manual Controls</h2>
-                    <span class="card-icon">🎛️</span>
-                </div>
-                <div class="card-body">
-                    <div class="control-buttons">
-                        <button class="btn btn-success" onclick="sendCommand('RELAY_ON')">
-                            Turn Relay ON
+                        <div class="control-divider"></div>
+
+                        <div class="control-section">
+                            <h3 class="control-section-title">Buzzer</h3>
+                            <div class="control-buttons">
+                                <button class="control-btn control-btn-on" onclick="sendCommand('BUZZER_ON')">
+                                    <span class="btn-icon">♪</span>
+                                    <span class="btn-text">On</span>
+                                </button>
+                                <button class="control-btn control-btn-warning" onclick="sendCommand('BUZZER_HIGH')">
+                                    <span class="btn-icon">♫</span>
+                                    <span class="btn-text">High</span>
+                                </button>
+                                <button class="control-btn control-btn-off" onclick="sendCommand('BUZZER_OFF')">
+                                    <span class="btn-icon">♪</span>
+                                    <span class="btn-text">Off</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="control-divider"></div>
+
+                        <button class="control-btn control-btn-primary control-btn-full" onclick="requestStatus()">
+                            <span class="btn-icon">⟳</span>
+                            <span class="btn-text">Refresh Status</span>
                         </button>
-                        <button class="btn btn-danger" onclick="sendCommand('RELAY_OFF')">
-                            Turn Relay OFF
-                        </button>
-                        <button class="btn btn-primary" onclick="requestStatus()">
-                            Refresh Status
-                        </button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Recent Events Table -->
-            <div class="card events-card">
-                <div class="card-header">
-                    <h2>Recent Events</h2>
-                    <span class="card-icon">📋</span>
-                </div>
-                <div class="card-body">
-                    <div class="table-container">
-                        <table id="events-table">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Risk Level</th>
-                                    <th>Score</th>
-                                    <th>Motion</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="events-tbody">
-                                <tr>
-                                    <td colspan="5" class="no-data">No events yet</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
 
         <!-- Footer -->
-        <footer>
-            <p>Hybrid Edge-Cloud System © 2024 | Connected Devices: <span id="connected-devices">0</span></p>
+        <footer class="footer">
+            <div class="footer-content">
+                <span class="footer-text">Hybrid Edge-Cloud System</span>
+                <span class="footer-divider">•</span>
+                <span class="footer-text">© 2024</span>
+            </div>
         </footer>
     </div>
 
-    <!-- Paho MQTT Client Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-    
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script>
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
+
 </html>
